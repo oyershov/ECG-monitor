@@ -12,6 +12,12 @@ class ECG {
             t: 12,
             tp: 2
         };
+
+        this.PARAMS_P = {
+            amplitude: 2,
+            width: 3,
+            height: 1,
+        }
       
         this.norm_array = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
         this.data_cursor = 0;
@@ -45,7 +51,7 @@ class ECG {
      */
     _generatePQRSTWave() {
         // P mimics a beta distribution
-        var p = (x) => 2 * Math.pow(x, 3) * (1-x);
+        var p = (x) => this.PARAMS_P.amplitude * Math.pow(x, this.PARAMS_P.width) * (this.PARAMS_P.height - x);
         // Q mimics the -ve part of a sine wave
         var q = (x) =>  -1 * Math.pow(1.1, Math.sin(x, Math.PI)) + 1;
         // R mimics the +ve part of a skewed sine wave
