@@ -3,6 +3,7 @@
 <style>
 body {
     margin: auto;
+    margin-top: 200px;
     text-align: center;
 }
 
@@ -25,5 +26,21 @@ body {
         pValue.add(ecg.PARAMS_P, 'amplitude');
         pValue.add(ecg.PARAMS_P, 'width');
         pValue.add(ecg.PARAMS_P, 'height');
+        var qValue = gui.addFolder('Q');
+        qValue.add(ecg.PARAMS_Q, 'amplitude');
+        qValue.add(ecg.PARAMS_Q, 'second');
+        qValue.add(ecg.PARAMS_Q, 'third');
+        var rValue = gui.addFolder('R');
+        rValue.add(ecg.PARAMS_R, 'amplitude');
+        rValue.add(ecg.PARAMS_R, 'second');
+        var sValue = gui.addFolder('S');
+        sValue.add(ecg.PARAMS_S, 'amplitude');
+        sValue.add(ecg.PARAMS_S, 'second');
+        sValue.add(ecg.PARAMS_S, 'third');
+        var tValue = gui.addFolder('T');
+        tValue.add(ecg.PARAMS_T, 'amplitude');
+        tValue.add(ecg.PARAMS_T, 'second');
+        tValue.add(ecg.PARAMS_T, 'third');
+        gui.add(this, 'HEART_RATE', 0, 200).onChange(setValue);
     };
 </script>

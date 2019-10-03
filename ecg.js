@@ -18,6 +18,29 @@ class ECG {
             width: 3,
             height: 1,
         }
+
+        this.PARAMS_Q = {
+            amplitude: -1,
+            second: 1.1,
+            third: 1,
+        }
+
+        this.PARAMS_R = {
+            amplitude: 7,
+            second: 1,
+        }
+
+        this.PARAMS_S = {
+            amplitude: -1,
+            second: 1.5,
+            third: 1,
+        }
+
+        this.PARAMS_T = {
+            amplitude: 5,
+            second: 2,
+            third: 1,
+        }
       
         this.norm_array = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
         this.data_cursor = 0;
@@ -53,13 +76,13 @@ class ECG {
         // P mimics a beta distribution
         var p = (x) => this.PARAMS_P.amplitude * Math.pow(x, this.PARAMS_P.width) * (this.PARAMS_P.height - x);
         // Q mimics the -ve part of a sine wave
-        var q = (x) =>  -1 * Math.pow(1.1, Math.sin(x, Math.PI)) + 1;
+        var q = (x) =>  this.PARAMS_Q.amplitude * Math.pow(this.PARAMS_Q.second, Math.sin(x, Math.PI)) + this.PARAMS_Q.third;
         // R mimics the +ve part of a skewed sine wave
-        var r = (x) =>  Math.pow(7, Math.sin(x, Math.PI)) - 1;
+        var r = (x) =>  Math.pow(this.PARAMS_R.amplitude, Math.sin(x, Math.PI)) - this.PARAMS_R.second;
         // S mimics the -ve part of a skewed sine wave
-        var s = (x) =>  -1 * Math.pow(1.5, Math.sin(x, Math.PI)) + 1;
+        var s = (x) =>  this.PARAMS_S.amplitude * Math.pow(this.PARAMS_S.second, Math.sin(x, Math.PI)) + this.PARAMS_S.third;
         // T mimics a beta distribution
-        var t = (x) =>  5 * Math.pow(x, 2) * (1-x);
+        var t = (x) =>  this.PARAMS_T.amplitude * Math.pow(x, this.PARAMS_T.second) * (this.PARAMS_T.third - x);
         // pq, st, and tp segments mimic y=0
         var zero_segment = (x) =>  0;
 

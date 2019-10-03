@@ -3,7 +3,8 @@ var MAX_X = 12,
     MIN_Y = -3,
     MASK_WIDTH = 0.5,
     MASK_STEP_SIZE = 0.1,
-    MASK_TRANSITION_DURATION = 800;
+    HEART_RATE = 60;
+    MASK_TRANSITION_DURATION = (1 / HEART_RATE) * 5500;
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height"),
@@ -131,4 +132,8 @@ function Point(x, y) {
         getX: function() {return this.x},
         getY: function() {return this.y}
     };
+}
+
+function setValue(value) {
+    MASK_TRANSITION_DURATION = (1 / value) * 5500
 }
