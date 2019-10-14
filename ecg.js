@@ -15,8 +15,8 @@ class ECG {
 
         this.PARAMS_P = {
             amplitude: 2,
-            width: 3,
-            height: 1,
+            swelling: 3,
+            unswelling: 1,
         }
 
         this.PARAMS_Q = {
@@ -38,8 +38,8 @@ class ECG {
 
         this.PARAMS_T = {
             amplitude: 5,
-            second: 2,
-            third: 1,
+            swelling: 2,
+            unswelling: 1,
         }
       
         this.norm_array = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
@@ -74,7 +74,7 @@ class ECG {
      */
     _generatePQRSTWave() {
         // P mimics a beta distribution
-        var p = (x) => this.PARAMS_P.amplitude * Math.pow(x, this.PARAMS_P.width) * (this.PARAMS_P.height - x);
+        var p = (x) => this.PARAMS_P.amplitude * Math.pow(x, this.PARAMS_P.swelling) * (this.PARAMS_P.unswelling - x);
         // Q mimics the -ve part of a sine wave
         var q = (x) =>  this.PARAMS_Q.amplitude * Math.pow(this.PARAMS_Q.second, Math.sin(x, Math.PI)) + this.PARAMS_Q.third;
         // R mimics the +ve part of a skewed sine wave
@@ -82,8 +82,8 @@ class ECG {
         // S mimics the -ve part of a skewed sine wave
         var s = (x) =>  this.PARAMS_S.amplitude * Math.pow(this.PARAMS_S.second, Math.sin(x, Math.PI)) + this.PARAMS_S.third;
         // T mimics a beta distribution
-        var t = (x) =>  this.PARAMS_T.amplitude * Math.pow(x, this.PARAMS_T.second) * (this.PARAMS_T.third - x);
-        // pq, st, and tp segments mimic y=0
+        var t = (x) =>  this.PARAMS_T.amplitude * Math.pow(x, this.PARAMS_T.swelling) * (this.PARAMS_T.unswelling - x);
+        // pq, st, and tp segments mimvic y=0
         var zero_segment = (x) =>  0;
 
         // generate plot points for a single pqrst wave
