@@ -15,29 +15,34 @@ class ECG {
 
         this.PARAMS_P = {
             amplitude: 2,
+            epsilon: 0,
             swelling: 3,
             unswelling: 1,
         }
 
         this.PARAMS_Q = {
             amplitude: -1,
+            epsilon: 0,
             second: 1.1,
             third: 1,
         }
 
         this.PARAMS_R = {
             amplitude: 7,
+            epsilon: 0,
             second: 1,
         }
 
         this.PARAMS_S = {
             amplitude: -1,
+            epsilon: 0,
             second: 1.5,
             third: 1,
         }
 
         this.PARAMS_T = {
             amplitude: 5,
+            epsilon: 0,
             swelling: 2,
             unswelling: 1,
         }
@@ -53,6 +58,11 @@ class ECG {
 
     getStepSize() {
         return 1 / (Object.keys(this.PQRST_WAVE_WIDTH_RATIOS).length * this.norm_array.length);
+    }
+
+    getAmplitude(params) {
+        const eps = params.epsilon ? (params.amplitude * params.epsilon) : 0;
+        return params.amplitude + ((Math.random() * (eps - -eps) + -eps) / 100);
     }
 
     /**
@@ -74,15 +84,20 @@ class ECG {
      */
     _generatePQRSTWave() {
         // P mimics a beta distribution
-        var p = (x) => this.PARAMS_P.amplitude * Math.pow(x, this.PARAMS_P.swelling) * (this.PARAMS_P.unswelling - x);
+        const ampP = this.getAmplitude(this.PARAMS_P);
+        var p = (x) => ampP * Math.pow(x, this.PARAMS_P.swelling) * (this.PARAMS_P.unswelling - x);
         // Q mimics the -ve part of a sine wave
-        var q = (x) =>  this.PARAMS_Q.amplitude * Math.pow(this.PARAMS_Q.second, Math.sin(x, Math.PI)) + this.PARAMS_Q.third;
+        const ampQ = this.getAmplitude(this.PARAMS_Q);
+        var q = (x) => ampQ * Math.pow(this.PARAMS_Q.second, Math.sin(x, Math.PI)) + this.PARAMS_Q.third;
         // R mimics the +ve part of a skewed sine wave
-        var r = (x) =>  Math.pow(this.PARAMS_R.amplitude, Math.sin(x, Math.PI)) - this.PARAMS_R.second;
+        const ampR = this.getAmplitude(this.PARAMS_R);
+        var r = (x) => Math.pow(ampR, Math.sin(x, Math.PI)) - this.PARAMS_R.second;
         // S mimics the -ve part of a skewed sine wave
-        var s = (x) =>  this.PARAMS_S.amplitude * Math.pow(this.PARAMS_S.second, Math.sin(x, Math.PI)) + this.PARAMS_S.third;
+        const ampS = this.getAmplitude(this.PARAMS_S);
+        var s = (x) =>  ampS * Math.pow(this.PARAMS_S.second, Math.sin(x, Math.PI)) + this.PARAMS_S.third;
         // T mimics a beta distribution
-        var t = (x) =>  this.PARAMS_T.amplitude * Math.pow(x, this.PARAMS_T.swelling) * (this.PARAMS_T.unswelling - x);
+        const ampT = this.getAmplitude(this.PARAMS_T);
+        var t = (x) => ampT * Math.pow(x, this.PARAMS_T.swelling) * (this.PARAMS_T.unswelling - x);
         // pq, st, and tp segments mimvic y=0
         var zero_segment = (x) =>  0;
 
