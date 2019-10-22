@@ -42,6 +42,7 @@ class ECG {
 
         this.PARAMS_T = {
             amplitude: 5,
+            alternation: 0,
             epsilon: 0,
             swelling: 2,
             unswelling: 1,
@@ -50,6 +51,7 @@ class ECG {
         this.norm_array = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
         this.data_cursor = 0;
         this.data_buffer = [];
+        this.bigTooth = false;
     }
 
     getDataCursor() {
@@ -83,6 +85,12 @@ class ECG {
      * generate a PQRST wave and append it to the ECG data. 
      */
     _generatePQRSTWave() {
+        this.bigTooth = !this.bigTooth;
+        if (this.bigTooth) {
+            this.PARAMS_T.amplitude = this.PARAMS_T.amplitude * (1 + this.PARAMS_T.alternation);
+        } else {
+            this.PARAMS_T.amplitude = this.PARAMS_T.amplitude / (1 + this.PARAMS_T.alternation);
+        }
         // P mimics a beta distribution
         const ampP = this.getAmplitude(this.PARAMS_P);
         var p = (x) => ampP * Math.pow(x, this.PARAMS_P.swelling) * (this.PARAMS_P.unswelling - x);
