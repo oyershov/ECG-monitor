@@ -42,13 +42,13 @@ body {
     justify-content: center;
 }
 </style>
-<div class="switch"><a href="./index2.html">With noise</a></div>
-<svg width="900" height="300"></svg>
+<div class="switch"><a href="./index.html">Without noise</a></div>
+<svg id="chart" width="900" height="300"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./extObject.js"></script>
-<script src="./ecg.js"></script>
+<script src="./ecg2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
-<script src="./logic.js"></script>
+<script src="./logic2.js"></script>
 <script>
     window.onload = function() {
         var gui = new dat.GUI();
@@ -77,5 +77,6 @@ body {
         tValue.add(ecg.PARAMS_T, 'swelling');
         tValue.add(ecg.PARAMS_T, 'unswelling');
         gui.add(this, 'HEART_RATE', 0, 200).onChange(setValue);
+        gui.add(this, 'NOISE', 0, 1000).onChange(setNoise);
     };
 </script>
